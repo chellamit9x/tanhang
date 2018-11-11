@@ -1,0 +1,259 @@
+<!-- chu y: tat cac cac input file nen de duoi cung trong form neu lam viec voi upload.  -->
+
+<div class="panel">
+
+    <!-- UPLOAD TITLE + RESET JS BEGIN -->
+    <script language="Javascript">
+        function myReset() {
+            window.location.href("/<%= sails.getUrlFor('admin/BlogController.edit') %>?id=<%= blogPost.id %>");
+        };
+        function uniqueValue() {
+            return Date.now() + Math.random().toString(36).substr(2, 16);
+        };
+        function showname(idInputFile, idInputText, idInputText1) {
+            let name = document.getElementById(idInputFile);
+            try {
+                document.getElementById(idInputText).value = 'imgblog_' + uniqueValue() + name.files.item(0).name;
+                document.getElementById(idInputText1).value = document.getElementById(idInputText).value;
+
+            } catch (error) {
+                document.getElementById(idInputText).value = '';
+                document.getElementById(idInputText1).value = '';
+            }
+        };
+
+        function fileUpload(form, action_url, div_id) {
+            // Create the iframe...
+            var iframe = document.createElement("iframe");
+            iframe.setAttribute("id", "upload_iframe");
+            iframe.setAttribute("name", "upload_iframe");
+            iframe.setAttribute("width", "0");
+            iframe.setAttribute("height", "0");
+            iframe.setAttribute("border", "0");
+            iframe.setAttribute("style", "width: 0; height: 0; border: none;");
+
+            // Add to document...
+            form.parentNode.appendChild(iframe);
+            window.frames['upload_iframe'].name = "upload_iframe";
+
+            iframeId = document.getElementById("upload_iframe");
+
+            // Add event...
+            var eventHandler = function () {
+
+                if (iframeId.detachEvent) iframeId.detachEvent("onload", eventHandler);
+                else iframeId.removeEventListener("load", eventHandler, false);
+
+                // Message from server...
+                if (iframeId.contentDocument) {
+                    content = iframeId.contentDocument.body.innerHTML;
+                } else if (iframeId.contentWindow) {
+                    content = iframeId.contentWindow.document.body.innerHTML;
+                } else if (iframeId.document) {
+                    content = iframeId.document.body.innerHTML;
+                }
+
+                document.getElementById(div_id).innerHTML = content;
+
+                // Del the iframe...
+                setTimeout('iframeId.parentNode.removeChild(iframeId)', 250);
+            }
+
+            if (iframeId.addEventListener) iframeId.addEventListener("load", eventHandler, true);
+            if (iframeId.attachEvent) iframeId.attachEvent("onload", eventHandler);
+
+            // Set properties of form...
+            form.setAttribute("target", "upload_iframe");
+            form.setAttribute("action", action_url);
+            form.setAttribute("method", "post");
+            form.setAttribute("enctype", "multipart/form-data");
+            form.setAttribute("encoding", "multipart/form-data");
+
+            // Submit the form...
+            form.submit();
+            if (document.getElementById('imageUpload').value !== '') {
+                $('#editForm').attr('disabled', 'disabled');
+                document.getElementById(div_id).innerHTML = "<div class='alert alert-warning alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-check-circle'></i> Waiting upload....</div>"
+                let my_timer;
+                let $this = $('#editForm');
+                my_timer = setTimeout(function () {
+                    $this.removeAttr('disabled');
+                    document.getElementById(div_id).innerHTML = "<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-check-circle'></i> Upload Thumbnail Success!</div>"
+                }, 5000);
+            }
+
+        }
+    </script>
+    <!-- UPLOAD TITLE + RESET JS END -->
+
+    <!-- TAG JS BEGIN-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let listTags = '<%= listTags %>';
+            let availableListTags = listTags.split(',');
+            $("#myTags").tagit({
+                availableTags: availableListTags,
+                allowSpaces: true
+            });
+        });
+    </script>
+    <!-- TAG JS END-->
+
+
+    <!-- POST CREATE BLOG BEGIN -->
+    <script>
+        function submitFormEdit() {
+
+            let getTags = $("ul#myTags li");
+            let tags = [];
+            for (let i = 0; i < getTags.length - 1; i++) {
+                tags.push(getTags[i].textContent.replace('×', ''));
+            };
+            let data = {
+                title: document.getElementById('title').value,
+                textShortContent: document.getElementById('textShortContent').value,
+                textContent: CKEDITOR.instances.editor1.getData(),
+                tags: tags,
+                thumbnailName: document.getElementById('thumbnailName').value,
+            };
+
+            $.post("<%= sails.getUrlFor('admin/BlogController.edit') %>?id=<%= blogPost.id %>", data).done(function (mydata) {
+                let message = mydata.message.replace("\"title\"", "Title Blog").replace("\"shortContent\"", "Short Content Blog").replace("\"content\"", "Content Blog").replace("\"tags\"", "Tags Blog");
+                $('#resultTitle').html("");
+                $('#resultShortContent').html("");
+                $('#resultContent').html("");
+                $('#resultTags').html("");
+
+                if (!mydata.success) {
+                    if (mydata.value === 'title') {
+                        $('#resultTitle').html(" <div class='alert alert-danger alert-dismissible' role='alert' ><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-times-circle'></i> " + message + "</div>");
+                    };
+                    if (mydata.value === 'shortContent') {
+                        $('#resultShortContent').html(" <div class='alert alert-danger alert-dismissible' role='alert' ><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-times-circle'></i> " + message + "</div>");
+                    };
+                    if (mydata.value === 'content') {
+                        $('#resultContent').html(" <div class='alert alert-danger alert-dismissible' role='alert' ><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-times-circle'></i> " + message + "</div>");
+                    };
+                    if (mydata.value === 'tags') {
+                        $('#resultTags').html(" <div class='alert alert-danger alert-dismissible' role='alert' ><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><i class='fa fa-times-circle'></i> " + message + "</div>");
+                    };
+
+                } else {
+                    return window.location.href = "<%= sails.getUrlFor('admin/BlogController.showPage') %>";
+                }
+            });
+
+            return false;
+        }
+    </script>
+    <!-- POST CREATE BLOG END -->
+
+    <div class="container text-center">
+        <h1>Sửa bài viết</h1>
+    </div>
+    <div class="panel-body">
+        <form>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="form-control" id="imageUpload" name="imageUpload"
+                                aria-describedby="emailHelp">
+
+                            <label for="exampleFormControlFile1">Tải ảnh thumbnail:</label>
+                            <input type="file" class="form-control-file" id="datafile" name="datafile" onchange="showname('datafile', 'thumbnailName', 'imageUpload')" />
+                        </td>
+                        <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+                        <td>
+                            <input type="button" class="btn btn-primary" value="upload" onClick="fileUpload(this.form,'/admin/blog/edit?id=<%= blogPost.id %>','divUploadSuccess'); return false;">
+                        </td>
+                        <td>
+                            <div id="divUploadSuccess">
+                            </div>
+                        </td>
+        </form>
+        <form method="POST" onsubmit="return submitFormEdit()" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tiêu đề bài viết:</label>
+                <!-- SHOW ERROR BEGIN -->
+                <div id="resultTitle">
+                </div>
+                <!-- SHOW ERROR END -->
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp"
+                    placeholder="Enter title.." value="<%= blogPost.title %>" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nội dung ngắn của bài viết:</label>
+
+                <!-- SHOW ERROR BEGIN -->
+                <div id="resultShortContent">
+                </div>
+                <!-- SHOW ERROR END -->
+            </div>
+            <textarea class="form-control" placeholder="Short Content" rows="4" id="textShortContent" name="textShortContent"
+                required><%= blogPost.shortContent %></textarea>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nội dung của bài viết:</label>
+
+                <!-- SHOW ERROR BEGIN -->
+                <div id="resultContent">
+                </div>
+                <!-- SHOW ERROR END -->
+            </div>
+            <textarea cols="10" id="editor1" name="editor1" rows="10" data-sample="1" data-sample-short=""><%= blogPost.content %></textarea>
+
+            <!-- CK EDITOR BEGIN -->
+            <script data-sample="1">
+                CKEDITOR.replace('editor1', {
+                    height: 350,
+                    customConfig: '/admin/scripts/ckeditor_config.js',
+                    filebrowserImageUploadUrl: '/upload'
+                });
+            </script>
+            <!-- CK EDITOR END -->
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tags bài viết:</label> <small id="emailHelp" class="form-text text-muted">(
+                    Chú ý: Dùng phím "Enter" hoặc "," để kết thúc một tag )</small>
+
+                <!-- SHOW ERROR BEGIN -->
+                <div id="resultTags">
+                </div>
+                <!-- SHOW ERROR END -->
+
+                <ul id="myTags" name="tags">
+                    <!-- Existing list items will be pre-added to the tags -->
+                </ul>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="form-control" id="thumbnailName" name="thumbnailName"
+                                aria-describedby="emailHelp" value="<%= blogPost.imageThumbnail.replace('/home/img/content/blog/','') %>">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+                            <input type="submit" id="editForm" class="btn btn-primary" value="Sửa bài viết"">
+        </form>
+
+        <form>
+            <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+                            <input type="submit" class="btn btn-dark" value="Reset" onclick="myReset()"></tr>
+                        <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+
+        </form>
+        </tbody>
+        </table>
+    </div>
+
+</div>
+<div id="data-container">
+</div>

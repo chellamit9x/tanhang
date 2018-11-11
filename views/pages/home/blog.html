@@ -1,0 +1,201 @@
+<script>
+    function searchBlog() {
+        let valueSearchs = '';
+        let checkSearchs = document.getElementById('searchBlog').value.split(' ');
+        let temp = 0;
+        for (let i = 0; i < checkSearchs.length; i++) {
+            if (checkSearchs[i] != '') {
+                if (temp == 0) {
+                    valueSearchs = valueSearchs + checkSearchs[i];
+
+                } else {
+                    valueSearchs = valueSearchs + '-' + checkSearchs[i];
+                }
+                temp = 1;
+            }
+        };
+        valueSearchs = valueSearchs
+        let setUrl = '/blog?search=' + valueSearchs;
+
+        document.getElementById('buttonSearchBlog').setAttribute('href', setUrl);
+    };
+
+
+
+
+</script>
+
+
+
+
+
+
+<div class="page-title jarallax black-overlay-20" data-jarallax data-speed="0.6" style="background-image: url('/home/img/content/bgs/bg1.jpg');">
+    <div class="container">
+        <h1>Blog List</h1>
+        <ul>
+            <li><a href="<%= sails.getUrlFor('HomeController.home') %>">Home</a></li>
+            <li><a href="<%= sails.getUrlFor('homepage/blog/BlogController.show') %>">Blog</a></li>
+        </ul>
+    </div>
+</div>
+
+
+
+<!-- listBlogs -->
+
+<div class="section-block">
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <% if(Number(total_pages) == 0){ %>
+                    <h1>No post!</h1>
+                    <% } else { %>
+                        <% if(listBlogs.length > 0){ %>
+                            <% _.each(listBlogs, function(blog){ %>
+                                <% let date = new Date(Number(blog.createdAt)); %>
+                                    <% let time = date.toLocaleDateString();  %>
+
+                                        <div class="blog-list"><img src="<%= blog.imageThumbnail %>" alt="img"><h4><a href="/blog/<%= blog.slugs %>"><%= blog.title %></a></h4>
+                                            <ul class="blog-list-info">
+                                                <li><i class="far fa-user"></i><span> <%= blog.author %></span></li>
+                                                <li><i class="far fa-calendar-alt"></i><span> <%= time %></span></li>
+                                            </ul>
+                                            <p class="mt-25">
+                                                <%= blog.shortContent %>
+                                            </p>
+                                            <div class="mt-20"> <a href="/blog/<%= blog.slugs %>" class="button-md primary-button">Read
+                                                    More
+                                                </a></div>
+                                        </div>
+
+                                        <% }) %>
+                                            <% } %>
+
+
+                                                <div class="mt-30 center-holder">
+
+                                                    <nav aria-label=" my-pagination">
+                                                        <% if(total_pages > 1){ %>
+
+                                                            <ul class="pagination justify-content-center">
+                                                                <% if(current_page == 1){ %>
+                                                                    <li class="disabled">
+                                                                        <a class="grey-button button-pagination semi-rounded">First</a>
+                                                                    </li>
+                                                                    <% }else { %>
+                                                                        <li class="page-item">
+                                                                            <a href="/blog?page=1" class="grey-button-bordered button-pagination semi-rounded"> First</a>
+                                                                        </li>
+                                                                        <% } %>
+                                                                            <% let n = (Number(current_page) > 5 ? Number(current_page) - 4 : 1) %>
+                                                                                <% if(n != 1){ %>
+                                                                                    <li class="disabled">
+                                                                                        <a class="grey-button-bordered button-pagination semi-rounded">...</a>
+                                                                                    </li>
+                                                                                    <% } %>
+                                                                                        <% for(; n <= (Number(current_page) + 4) && n <= total_pages; n++){ %>
+                                                                                            <% if(n == current_page){ %>
+                                                                                                <li class="active page-item">
+                                                                                                    <a class="grey-button button-pagination semi-rounded"><%= n %></a>
+                                                                                                </li>
+                                                                                                <% }else { %>
+                                                                                                    <li class="page-item">
+                                                                                                        <a href="/blog?page=<%= n %>" class="grey-button-bordered button-pagination semi-rounded"><%= n %>
+                                                                                                        </a>
+                                                                                                    </li>
+                                                                                                    <% } %>
+                                                                                                        <% if((n == Number(current_page) + 4 ) && n < total_pages ){ %>
+                                                                                                            <li class="disabled">
+                                                                                                                <a class="grey-button-bordered button-pagination semi-rounded">...</a>
+                                                                                                            </li>
+                                                                                                            <% } %>
+                                                                                                                <% } %>
+
+                                                                                                                    <% if(n == total_pages){ %>
+                                                                                                                        <li class="disabled">
+                                                                                                                            <a class="grey-button-bordered button-pagination semi-rounded">Last</a>
+                                                                                                                        </li>
+                                                                                                                        <% }else { %>
+                                                                                                                            <li class="page-item">
+                                                                                                                                <a href="/blog?page=<%= total_pages %>" class="grey-button-bordered button-pagination semi-rounded">Last</a>
+                                                                                                                            </li>
+                                                                                                                            <% } %>
+
+                                                            </ul>
+                                                            <% } %>
+
+                                                    </nav>
+                                                </div>
+                                                <% } %>
+            </div>
+
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="blog-post-right">
+                    <div id="search-input">
+                        <div class="input-group"> <input type="text" class="form-control input-sn" placeholder="Search..."
+                                id="searchBlog" name="searchBlog" onchange="searchBlog()">
+                            <span class="input-group-btn"><a class="btn btn-info btn-md" href="" id="buttonSearchBlog"><i
+                                        class="fa fa-search"></i></a></span>
+                        </div>
+                    </div>
+
+                    <!-- recentBlogs begin -->
+
+                    <h4>Recent-post</h4>
+                    <div class="recent-post mt-20">
+                        <% if(recentBlogs.length > 0){ %>
+                            <% _.each(recentBlogs, function(recentBlog){ %>
+                                <% let date = new Date(Number(recentBlog.createdAt)); %>
+                                    <% let time = date.toLocaleDateString();  %>
+                                        <div class="recent-post-info">
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-4 col-12 pr-0"> <img src="<%= recentBlog.imageThumbnail %>"
+                                                        alt="img"> </div>
+                                                <div class="col-md-8 col-sm-8 col-12">
+                                                    <h3><a href="/blog/<%= recentBlog.slugs %>"><%= recentBlog.title %></a></h3>
+                                                    <h6>
+                                                        <%= time %>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <% }) %>
+
+                                            <% } %>
+
+                    </div>
+
+                    <!-- recentBlogs end -->
+
+
+                    <h4>Tags</h4>
+                    <div class="recent-post-tags mt-20">
+                        <% if(tags.length > 0){ %>
+                            <% _.each(tags, function(tag){ %>
+                                <a href="/blog?tag=<%= tag.name %>" class="dark-button button-tag semi-rounded"><%= tag.name %></a>
+                                <% }) %>
+
+                                    <% } %>
+
+                    </div>
+
+                    <h4>Share Links</h4>
+                    <div class="blog-post-follow mt-20">
+                        <ul>
+                            <li class="social-facebook"><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                            <li class="social-youtube"><a href="#"><i class="fab fa-youtube-square"></i></a></li>
+                            <li class="social-twitter"><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+                            <li class="social-pinterest"><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
+                            <li class="social-behance"><a href="#"><i class="fab fa-behance-square"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

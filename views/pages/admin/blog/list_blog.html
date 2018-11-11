@@ -1,0 +1,103 @@
+<div class="panel">
+  <div class="container text-center">
+    <h1 class="container">Danh sách bài viết</h1>
+  </div>
+  <div class="panel-body">
+      <a class="btn btn-primary d-inline" href="<%= sails.getUrlFor('admin/BLogController.create') %>">Thêm mới bài viết</a>
+        <a href="#" class="btn btn-danger " id="btnDeleteSelectBlog">Xóa</a>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th scope="col">Tiêu đề bài viết</th>
+          <th scope="col">Tác giả</th>
+          <th scope="col">Thời gian tạo bài viết</th>
+          <th scope="col"><span class="glyphicon glyphicon-remove"></span></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% if(Number(totalPages) == 0) { %>
+        <% } else { %>
+        <% let i = limit*(currentPage - 1); %>
+
+        <% _.each(listBlogs, function(listBlog){ %>
+        <tr class="row-blog" data-id="<%= listBlog.id %>" data-select="false">
+          <th scope="row">
+            <%= i+1 %>
+            <% let date = new Date(Number(listBlog.createdAt)); %>
+            <% let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }; %>
+            <% let time = date.toLocaleDateString('en-EN', options);  %>
+          </th>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/BlogController.edit') %>?id=<%= listBlog.id %>">
+              <%= listBlog.title %></a></td>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/BlogController.edit') %>?id=<%= listBlog.id %>">
+              <%= listBlog.author %></a></td>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/BlogController.edit') %>?id=<%= listBlog.id %>">
+              <%= time %></a></td>
+          <td><a href="#"><span class="glyphicon glyphicon-remove btnDeleteOneBlog" data-id="<%= listBlog.id %>" style="color:red"></span></a></td>
+        </tr>
+
+        <% i++ %>
+        <% }) %>
+
+        <% } %>
+      </tbody>
+    </table>
+    <hr>
+    <div class="container text-center">
+      <nav aria-label="my-pagination">
+        <% if(totalPages > 0){ %>
+
+        <ul class="pagination text-center">
+          <% if(currentPage == 1){ %>
+          <li class="disabled">
+            <a>Trang đầu</a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/BlogController.showPage') %>?page=1"> Trang đầu</a>
+          </li>
+          <% } %>
+          <% let n = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+          <% if(n != 1){ %>
+          <li class="disabled">
+            <a>...</a>
+          </li>
+          <% } %>
+          <% for(; n <= (Number(currentPage) + 4) && n <= totalPages; n++){ %>
+          <% if(n == currentPage){ %>
+          <li class="active page-item">
+            <a>
+              <%= n %></a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/BlogController.showPage') %>?page=<%= n %>">
+              <%= n %></a>
+          </li>
+          <% } %>
+          <% if((n == Number(currentPage) + 4 ) && n < totalPages ){ %>
+          <li class="disabled">
+            <a>...</a>
+          </li>
+          <% } %>
+          <% } %>
+
+          <% if(n == totalPages){ %>
+          <li class="disabled">
+            <a>Trang cuối</a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/BlogController.showPage') %>?page=<%= totalPages %>">Trang cuối</a>
+          </li>
+          <% } %>
+        </ul>
+        <% } %>
+      </nav>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="panel">
+  <div class="container text-center">
+    <h1 class="container">Tin nhắn liên lạc</h1>
+  </div>
+  <div class="panel-body">
+
+    <table class="table container">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Tiêu Đề</th>
+          <th scope="col">SĐT</th>
+          <th scope="col">Thời Gian</th>
+          <th scope="col">Trạng Thái</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% if(Number(totalPages) == 0) { %>
+        <% } else { %>
+        <% let i = limit*(currentPage - 1); %>
+        <% _.each(listContacts, function(listContact){ %>
+        <% let date = new Date(Number(listContact.createdAt)); %>
+        <% let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }; %>
+        <% let time = date.toLocaleDateString('en-EN', options);  %>
+        <% if(listContact.status_click == false){ %>
+        <tr>
+          <th scope="row">
+            <%= i+1 %>
+          </th>
+          <td><strong><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+                <%= listContact.name %></a></strong></td>
+          <td><strong><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+                <%= listContact.subject %></a></strong></td>
+          <td><strong><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+                <%= listContact.phone %></a></strong></td>
+          <td><strong><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+                <%= time %></a></strong></td>
+          <% if(listContact.status == false){ %>
+          <td><strong><a style="color:rgb(233, 0, 0)" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">Chưa trả lời</a></strong></td>
+          <% } else { %>
+          <td><strong><a style="color:rgb(0, 177, 9)" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">Đã trả lời</a></strong></td>
+          <% } %>
+
+        </tr>
+        <% } %>
+        <% if(listContact.status_click == true){ %>
+        <tr>
+          <th scope="row">
+            <%= i+1 %>
+          </th>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+              <%= listContact.name %></a></td>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+              <%= listContact.subject %></a></td>
+              <td><strong><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+                <%= listContact.phone %></a></strong></td>
+          <td><a style="color:black" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">
+              <%= time %></a></td>
+          <% if(listContact.status == false){ %>
+          <td><strong><a style="color:rgb(233, 0, 0)" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">Chưa trả lời</a></strong></td>
+          <% } else { %>
+          <td><strong><a style="color:rgb(0, 177, 9)" href="<%= sails.getUrlFor('admin/ContactController.detail') %>?id=<%= listContact.id %>">Đã trả lời</a></strong></td>
+          <% } %>
+        </tr>
+        <% } %>
+        <% i++ %>
+        <% }) %>
+
+        <% } %>
+      </tbody>
+    </table>
+    <hr>
+    <div class="container text-center">
+      <nav aria-label=" my-pagination">
+        <% if(totalPages > 0){ %>
+        <ul class="pagination text-center">
+          <% if(currentPage == 1){ %>
+          <li class="disabled">
+            <a>First</a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/ContactController.showPage') %>?page=1"> Đầu tiên</a>
+          </li>
+          <% } %>
+          <% let n = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+          <% if(n != 1){ %>
+          <li class="disabled">
+            <a>...</a>
+          </li>
+          <% } %>
+          <% for(; n <= (Number(currentPage) + 4) && n <= totalPages; n++){ %>
+          <% if(n == currentPage){ %>
+          <li class="active page-item">
+            <a>
+              <%= n %></a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/ContactController.showPage') %>?page=<%= n %>">
+              <%= n %> </a>
+          </li>
+          <% } %>
+          <% if((n == Number(currentPage) + 4 ) && n < totalPages ){ %>
+          <li class="disabled">
+            <a>...</a>
+          </li>
+          <% } %>
+          <% } %>
+          <% if(n == totalPages){ %>
+          <li class="disabled">
+            <a>Last</a>
+          </li>
+          <% }else { %>
+          <li class="page-item">
+            <a href="<%= sails.getUrlFor('admin/ContactController.showPage') %>?page=<%= totalPages %>">Cuối cùng</a>
+          </li>
+          <% } %>
+        </ul>
+        <% } %>
+      </nav>
+    </div>
+  </div>
+</div>

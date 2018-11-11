@@ -1,0 +1,40 @@
+<div class="panel">
+	<div class="container text-center">
+		<h1>Cài đặt trang "Giới Thiệu"</h1>
+	</div>
+	<div class="panel-body">
+		<script>
+			function myReset() {
+				window.location.href("/<%= sails.getUrlFor('admin/IntroduceController.setting') %>");
+			};
+		</script>
+		<form action="<%= sails.getUrlFor('admin/IntroduceController.setting') %>" method="POST">
+			<input type="hidden" name="_csrf" value="<%- _csrf %>" />
+			<textarea cols="10" id="editor1" name="texteditor" rows="10" data-sample="1" data-sample-short=""> <%- contentIntroduce.value %> </textarea>
+			<!-- CK EDITOR BEGIN -->
+			<script data-sample="1">
+				CKEDITOR.replace('editor1', {
+					height: 350,
+					customConfig: '/admin/scripts/ckeditor_config.js',
+					filebrowserImageUploadUrl: '/upload'
+				});
+			</script>
+			<!-- CK EDITOR END -->
+			<div class="form-control"></div>
+			<div class=" text-center">
+				<table class="table">
+					<tbody> 
+						<tr>
+							<input type="submit" class="btn btn-primary" value="Save">
+		</form>
+		<form>
+			<input type="submit" class="btn btn-dark" value="Reset" onclick="myReset()">
+		</form>
+		</tr>
+		</tbody>
+		</table>
+		</div>
+		<div id="data-container">
+		</div>
+	</div>
+</div>
