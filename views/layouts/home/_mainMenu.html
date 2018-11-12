@@ -1,6 +1,7 @@
 <ul class="nav-menu align-to-right">
-  <li><a href="#">Trang chủ</a></li>
-  <li><a href="#">Bài viết</a></li>
+  <li><a href="<%= sails.getUrlFor('home/HomeController.home') %>">Trang chủ</a></li>
+  <li><a href="<%= sails.getUrlFor('home/BlogController.show') %>">Bài viết</a></li>
+  <li><a href="#">Giỏ hàng</a></li>
   <li><a href="<%= sails.getUrlFor('home/HomeController.about') %>">Giới thiệu</a></li>
   <li><a href="<%= sails.getUrlFor('home/HomeController.contact') %>">Liên hệ</a></li>
 </ul>

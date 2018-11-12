@@ -15,7 +15,7 @@
             }
         };
         valueSearchs = valueSearchs
-        let setUrl = '/blog?search=' + valueSearchs;
+        let setUrl = '/bai-viet?search=' + valueSearchs;
 
         document.getElementById('buttonSearchBlog').setAttribute('href', setUrl);
     };
@@ -32,12 +32,12 @@
 
 <div class="page-title jarallax black-overlay-20" data-jarallax data-speed="0.6" style="background-image: url('/home/img/content/bgs/bg1.jpg');">
     <div class="container">
-        <h1>Blog List</h1>
+        <h1>Danh sách bài viết</h1>
         <ul>
-            <li><a href="<%= sails.getUrlFor('HomeController.home') %>">Home</a></li>
-            <li><a href="<%= sails.getUrlFor('homepage/blog/BlogController.show') %>">Blog</a></li>
+            <li><a href="<%= sails.getUrlFor('home/HomeController.home') %>">Trang chủ</a></li>
+            <li><a href="<%= sails.getUrlFor('home/BlogController.show') %>">Bài viết</a></li>
         </ul>
-    </div>
+    </div> 
 </div>
 
 
@@ -51,14 +51,14 @@
 
             <div class="col-md-9 col-sm-9 col-xs-12">
                 <% if(Number(total_pages) == 0){ %>
-                    <h1>No post!</h1>
+                    <h1>Không có bài viết nào!</h1>
                     <% } else { %>
                         <% if(listBlogs.length > 0){ %>
                             <% _.each(listBlogs, function(blog){ %>
                                 <% let date = new Date(Number(blog.createdAt)); %>
                                     <% let time = date.toLocaleDateString();  %>
 
-                                        <div class="blog-list"><img src="<%= blog.imageThumbnail %>" alt="img"><h4><a href="/blog/<%= blog.slugs %>"><%= blog.title %></a></h4>
+                                        <div class="blog-list"><img src="<%= blog.imageThumbnail %>" alt="img"><h4><a href="/bai-viet/<%= blog.slugs %>"><%= blog.title %></a></h4>
                                             <ul class="blog-list-info">
                                                 <li><i class="far fa-user"></i><span> <%= blog.author %></span></li>
                                                 <li><i class="far fa-calendar-alt"></i><span> <%= time %></span></li>
@@ -66,8 +66,7 @@
                                             <p class="mt-25">
                                                 <%= blog.shortContent %>
                                             </p>
-                                            <div class="mt-20"> <a href="/blog/<%= blog.slugs %>" class="button-md primary-button">Read
-                                                    More
+                                            <div class="mt-20"> <a href="/bai-viet/<%= blog.slugs %>" class="button-md primary-button">Đọc chi tiết
                                                 </a></div>
                                         </div>
 
@@ -83,11 +82,11 @@
                                                             <ul class="pagination justify-content-center">
                                                                 <% if(current_page == 1){ %>
                                                                     <li class="disabled">
-                                                                        <a class="grey-button button-pagination semi-rounded">First</a>
+                                                                        <a class="grey-button button-pagination semi-rounded">Trang đầu</a>
                                                                     </li>
                                                                     <% }else { %>
                                                                         <li class="page-item">
-                                                                            <a href="/blog?page=1" class="grey-button-bordered button-pagination semi-rounded"> First</a>
+                                                                            <a href="/bai-viet?page=1" class="grey-button-bordered button-pagination semi-rounded"> Trang đầu</a>
                                                                         </li>
                                                                         <% } %>
                                                                             <% let n = (Number(current_page) > 5 ? Number(current_page) - 4 : 1) %>
@@ -103,7 +102,7 @@
                                                                                                 </li>
                                                                                                 <% }else { %>
                                                                                                     <li class="page-item">
-                                                                                                        <a href="/blog?page=<%= n %>" class="grey-button-bordered button-pagination semi-rounded"><%= n %>
+                                                                                                        <a href="/bai-viet?page=<%= n %>" class="grey-button-bordered button-pagination semi-rounded"><%= n %>
                                                                                                         </a>
                                                                                                     </li>
                                                                                                     <% } %>
@@ -116,11 +115,11 @@
 
                                                                                                                     <% if(n == total_pages){ %>
                                                                                                                         <li class="disabled">
-                                                                                                                            <a class="grey-button-bordered button-pagination semi-rounded">Last</a>
+                                                                                                                            <a class="grey-button-bordered button-pagination semi-rounded">Trang cuối</a>
                                                                                                                         </li>
                                                                                                                         <% }else { %>
                                                                                                                             <li class="page-item">
-                                                                                                                                <a href="/blog?page=<%= total_pages %>" class="grey-button-bordered button-pagination semi-rounded">Last</a>
+                                                                                                                                <a href="/bai-viet?page=<%= total_pages %>" class="grey-button-bordered button-pagination semi-rounded">Trang cuối</a>
                                                                                                                             </li>
                                                                                                                             <% } %>
 
@@ -145,7 +144,7 @@
 
                     <!-- recentBlogs begin -->
 
-                    <h4>Recent-post</h4>
+                    <h4>Bài viết mới nhất</h4>
                     <div class="recent-post mt-20">
                         <% if(recentBlogs.length > 0){ %>
                             <% _.each(recentBlogs, function(recentBlog){ %>
@@ -156,7 +155,7 @@
                                                 <div class="col-md-4 col-sm-4 col-12 pr-0"> <img src="<%= recentBlog.imageThumbnail %>"
                                                         alt="img"> </div>
                                                 <div class="col-md-8 col-sm-8 col-12">
-                                                    <h3><a href="/blog/<%= recentBlog.slugs %>"><%= recentBlog.title %></a></h3>
+                                                    <h3><a href="/bai-viet/<%= recentBlog.slugs %>"><%= recentBlog.title %></a></h3>
                                                     <h6>
                                                         <%= time %>
                                                     </h6>
@@ -177,14 +176,14 @@
                     <div class="recent-post-tags mt-20">
                         <% if(tags.length > 0){ %>
                             <% _.each(tags, function(tag){ %>
-                                <a href="/blog?tag=<%= tag.name %>" class="dark-button button-tag semi-rounded"><%= tag.name %></a>
+                                <a href="/bai-viet?tag=<%= tag.name %>" class="dark-button button-tag semi-rounded"><%= tag.name %></a>
                                 <% }) %>
 
                                     <% } %>
 
                     </div>
 
-                    <h4>Share Links</h4>
+                    <h4>Chia sẻ bài viết</h4>
                     <div class="blog-post-follow mt-20">
                         <ul>
                             <li class="social-facebook"><a href="#"><i class="fab fa-facebook-square"></i></a></li>

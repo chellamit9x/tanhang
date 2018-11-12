@@ -1,0 +1,130 @@
+<script>
+    function searchBlog() {
+        let valueSearchs = '';
+        let checkSearchs = document.getElementById('searchBlog').value.split(' ');
+        let temp = 0;
+        for (let i = 0; i < checkSearchs.length; i++) {
+            if (checkSearchs[i] != '') {
+                if (temp == 0) {
+                    valueSearchs = valueSearchs + checkSearchs[i];
+
+                } else {
+                    valueSearchs = valueSearchs + '-' + checkSearchs[i];
+                }
+                temp = 1;
+            }
+        };
+        valueSearchs = valueSearchs
+        let setUrl = '/bai-viet?search=' + valueSearchs;
+
+        document.getElementById('buttonSearchBlog').setAttribute('href', setUrl);
+    }
+
+
+</script>
+
+
+
+
+
+
+<div class="page-title jarallax black-overlay-20" data-jarallax data-speed="0.6" style="background-image: url('/home/img/content/bgs/bg1.jpg');">
+    <div class="container">
+            <h1>Danh sách bài viết</h1>
+        <ul>
+                <li><a href="<%= sails.getUrlFor('home/HomeController.home') %>">Trang chủ</a></li>
+                <li><a href="<%= sails.getUrlFor('home/BlogController.show') %>">Bài viết</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- listBlogs -->
+
+<div class="section-block">
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <% if(blog){ %>
+                    <% let date = new Date(Number(blog.createdAt)); %>
+                        <% let time = date.toLocaleDateString();  %>
+
+                            <div class="blog-post"><img src="<%= blog.imageThumbnail %>" alt="img" class="mb-15"><h4><a
+                                        href="#"><%= blog.title %></a></h4>
+                                <ul class="blog-post-info">
+                                    <li><i class="far fa-user"></i><span><%= blog.author %></span></li>
+                                    <li><i class="far fa-calendar-alt"></i><span><%= time %></span></li>
+                                </ul>
+                                <%- blog.content %>
+                            </div>
+                            <% } %>
+
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="blog-post-right">
+                    <div id="search-input">
+                        <div class="input-group"> <input type="text" class="form-control input-sn" placeholder="Search..."
+                                id="searchBlog" name="searchBlog" onchange="searchBlog()">
+                            <span class="input-group-btn"><a class="btn btn-info btn-md" href="" id="buttonSearchBlog"><i
+                                        class="fa fa-search"></i></a></span>
+                        </div>
+                    </div>
+
+                    <!-- recentBlogs begin -->
+
+                    <h4>Bài viết mới nhất</h4>
+                    <div class="recent-post mt-20">
+                        <% if(recentBlogs.length > 0){ %>
+                            <% _.each(recentBlogs, function(recentBlog){ %>
+                                <% let date = new Date(Number(recentBlog.createdAt)); %>
+                                <% let time = date.toLocaleDateString();  %>
+                                <div class="recent-post-info">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12 pr-0"> <img src="<%= recentBlog.imageThumbnail %>"
+                                                alt="img"> </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <h3><a href="/bai-viet/<%= recentBlog.slugs %>"><%= recentBlog.title %></a></h3>
+                                            <h6>
+                                                <%= time %>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% }) %>
+
+                                    <% } %>
+
+                    </div>
+
+                                        <!-- recentBlogs end -->
+
+
+                    <h4>Tags</h4>
+                    <div class="recent-post-tags mt-20">
+                        <% if(tags.length > 0){ %>
+                            <% _.each(tags, function(tag){ %>
+                                <a href="/bai-viet?tag=<%= tag.name %>" class="dark-button button-tag semi-rounded"><%= tag.name %></a>
+                                <% }) %>
+
+                                    <% } %>
+
+                    </div>
+
+                    <h4>Chia sẻ bài viết</h4>
+                    <div class="blog-post-follow mt-20">
+                        <ul>
+                            <li class="social-facebook"><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                            <li class="social-youtube"><a href="#"><i class="fab fa-youtube-square"></i></a></li>
+                            <li class="social-twitter"><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+                            <li class="social-pinterest"><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
+                            <li class="social-behance"><a href="#"><i class="fab fa-behance-square"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

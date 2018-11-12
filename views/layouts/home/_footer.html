@@ -11,10 +11,14 @@
           <li><a href="#"><i class="fab fa-skype"></i></a></li>
         </ul>
       </div>
-      <div class="col-md-3 col-sm-6 col-12"><h3>Bài viết mới nhất</h3>
+      <div class="col-md-3 col-sm-6 col-12"><h3>Tìm kiếm với Google</h3>
         <ul class="footer-style-1-latest-news">
-          
-        </ul>
+            <li><a target="_brank" href="https://www.google.com.vn/search?ei=ZODoW8aUMZn1wAPuo5DoCQ&q=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&oq=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&gs_l=psy-ab.3...11207.13103.0.13558.27.14.5.0.0.0.178.1397.10j4.14.0....0...1c.1.64.psy-ab..9.0.0....0.KVM9GUH4FG0">#Trà Tân Hằng</a></li>
+            <li><a target="_brank" href="https://www.google.com.vn/search?ei=ZODoW8aUMZn1wAPuo5DoCQ&q=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&oq=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&gs_l=psy-ab.3...11207.13103.0.13558.27.14.5.0.0.0.178.1397.10j4.14.0....0...1c.1.64.psy-ab..9.0.0....0.KVM9GUH4FG0">#Trà Tân Cương</a></li>
+            <li><a target="_brank" href="https://www.google.com.vn/search?ei=ZODoW8aUMZn1wAPuo5DoCQ&q=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&oq=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&gs_l=psy-ab.3...11207.13103.0.13558.27.14.5.0.0.0.178.1397.10j4.14.0....0...1c.1.64.psy-ab..9.0.0....0.KVM9GUH4FG0">#Trà Thái Nguyên</a></li>
+            <li><a target="_brank" href="https://www.google.com.vn/search?ei=ZODoW8aUMZn1wAPuo5DoCQ&q=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&oq=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&gs_l=psy-ab.3...11207.13103.0.13558.27.14.5.0.0.0.178.1397.10j4.14.0....0...1c.1.64.psy-ab..9.0.0....0.KVM9GUH4FG0">#Chè Tân Hằng</a></li>
+            <li><a target="_brank" href="https://www.google.com.vn/search?ei=ZODoW8aUMZn1wAPuo5DoCQ&q=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&oq=site%3Afacebook.com+tr%C3%A0+t%C3%A2n+h%E1%BA%B1ng&gs_l=psy-ab.3...11207.13103.0.13558.27.14.5.0.0.0.178.1397.10j4.14.0....0...1c.1.64.psy-ab..9.0.0....0.KVM9GUH4FG0">#Chè Tân Cương</a></li>
+          </ul>
       </div>
 
 
@@ -28,9 +32,9 @@
       <div class="col-md-2 col-sm-6 col-12"><h3>Các mục nhanh</h3>
         <ul class="footer-style-1-links">
           <li><a href="/">Sản phẩm</a></li>
-          <li><a href="#">Bài viết</a></li>
+          <li><a href="<%= sails.getUrlFor('home/BlogController.show') %>">Bài viết</a></li>
           <li><a href="<%= sails.getUrlFor('home/HomeController.about') %>">Giới thiệu</a></li>
-          <li><a href="#">Rỏ hàng</a></li>
+          <li><a href="#">Giỏ hàng</a></li>
           <li><a href="<%= sails.getUrlFor('home/HomeController.contact') %>">Liên hệ</a></li>
         </ul>
       </div>
@@ -43,8 +47,8 @@
         <div class="col-md-6 col-sm-6 col-12">
           <ul class="footer-style-1-bar-links">
             <li><a href="#">Sản phẩm</a></li>
-            <li><a href="#">Rỏ hàng</a></li>
-            <li><a href="#">Liên lạc</a></li>
+            <li><a href="#">Giỏ hàng</a></li>
+            <li><a href="<%= sails.getUrlFor('home/HomeController.contact') %>">Liên lạc</a></li>
           </ul>
         </div>
       </div>

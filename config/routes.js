@@ -41,7 +41,7 @@ module.exports.routes = {
     'POST /admin/blog/delete': 'admin/BlogController.delete',
 
     //BLog Home
-    'GET /blog': 'homepage/BlogController.show',
-    'GET /blog/:slugs': 'homepage/BlogController.detail',
+    'GET /bai-viet': 'home/BlogController.show',
+    'GET /bai-viet/:slugs': 'home/BlogController.detail',
 
 };
