@@ -153,6 +153,55 @@ window.onload = function () {
     loadDefault()
 
 }
+
+function themSanPhamTest(){
+    let productTest = 
+        {
+            id: "maso1",
+            name: "san pham 1111",
+            image: 'home/img/content/shop/shop-big-1.jpg',
+            soLuong: 1,
+            gia: 120
+        };
+    
+
+    let getListProduct = JSON.parse(localStorage.getItem("listProducts"));
+    if(!getListProduct){
+        getListProduct = []
+    }
+    getListProduct.push(productTest);
+    localStorage.setItem("listProducts", JSON.stringify(getListProduct));
+    loadDefault()
+    let getTinhToanMain = JSON.parse(localStorage.getItem("tinhToan"));
+    let getListProductMain = JSON.parse(localStorage.getItem("listProducts"));
+    if (getTinhToanMain) {
+        let tongSoLuong = 0;
+        for (let i = 0; i < getListProductMain.length; i++) {
+            tongSoLuong += parseInt(getListProductMain[i].soLuong);
+        }
+        document.getElementById("infoShopCart").innerHTML =
+            `<div class="row">
+            <div class="col-sm-4">
+              <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                  <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+              </a>
+            </div>
+            <div class="col-sm-8" style="color: #146e28" >
+  
+              <div class="row">
+                Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
+              </div>
+              <div class="row">
+                Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
+              </div>
+            </div>
+          </div>`
+    }
+
+
+}
+
+
 function changeSoLuong(i, gia, soLoaiSanPham) {
     let id = 'soLuong' + i;
     let x = document.getElementById(id).value;
@@ -194,11 +243,21 @@ function changeSoLuong(i, gia, soLoaiSanPham) {
         }
         document.getElementById("infoShopCart").innerHTML =
             `<div class="row">
-          Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
-        </div>
-        <div class="row">
-          Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongThanhToan}.000đ</b>
-        </div>`
+            <div class="col-sm-4">
+              <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                  <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+              </a>
+            </div>
+            <div class="col-sm-8" style="color: #146e28" >
+  
+              <div class="row">
+                Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
+              </div>
+              <div class="row">
+                Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
+              </div>
+            </div>
+          </div>`
     }
 
 }
@@ -254,7 +313,7 @@ function onDatHang() {
             postThongTinKhachHang.phuongThucThanhToan = "Chuyển khoản";
         }
 
-        localStorage.removeItem("listProducts");
+        localStorage.setItem("listProducts", JSON.stringify([]));
         let maDonHang = "TanHangTra" + Date.now();
         localStorage.setItem("maDonHang", maDonHang);
         let newMaDonHang = localStorage.getItem("maDonHang") ;
@@ -279,11 +338,21 @@ function onDatHang() {
             }
             document.getElementById("infoShopCart").innerHTML =
                 `<div class="row">
-              Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
-            </div>
-            <div class="row">
-              Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongThanhToan}.000đ</b>
-            </div>`
+                <div class="col-sm-4">
+                  <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                      <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+                  </a>
+                </div>
+                <div class="col-sm-8" style="color: #146e28" >
+      
+                  <div class="row">
+                    Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
+                  </div>
+                  <div class="row">
+                    Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
+                  </div>
+                </div>
+              </div>`
         }
 
         document.getElementById("thongBaoDatHangThanhCong").textContent = "Cảm ơn bạn đã đặt hàng của Tân Hàng. Chúng tôi sẽ liên lạc với bạn sớm nhất có thể!. Chúc bạn một ngày vui vẻ!";
@@ -296,7 +365,7 @@ function xoaSanPham(i) {
     let getCurrentListProduct = JSON.parse(localStorage.getItem("listProducts"));
     getCurrentListProduct.splice(getCurrentListProduct.indexOf(i), 1);
     localStorage.setItem("listProducts", JSON.stringify(getCurrentListProduct));
-    console.log(getCurrentListProduct)
+    
     loadDefault()
     let getTinhToanMain = JSON.parse(localStorage.getItem("tinhToan"));
     let getListProductMain = JSON.parse(localStorage.getItem("listProducts"));
@@ -307,11 +376,21 @@ function xoaSanPham(i) {
         }
         document.getElementById("infoShopCart").innerHTML =
             `<div class="row">
-          Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
-        </div>
-        <div class="row">
-          Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongThanhToan}.000đ</b>
-        </div>`
+            <div class="col-sm-4">
+              <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                  <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+              </a>
+            </div>
+            <div class="col-sm-8" style="color: #146e28" >
+  
+              <div class="row">
+                Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
+              </div>
+              <div class="row">
+                Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
+              </div>
+            </div>
+          </div>`
     }
 
 }

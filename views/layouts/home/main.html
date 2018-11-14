@@ -44,42 +44,49 @@
 
 
 
-      <div class="nav-search pl-3 pt-2">
-
-        <div class="row">
-          <div class="col-sm-4">
-            <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
-                <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
-            </a>
-            
-
-          </div>
-          <div class="col-sm-8" style="color: #146e28" id="infoShopCart">
+      <div class="nav-search pl-3 pt-2" id="infoShopCart">
 
 
 
-            <script>
-                let getTinhToanMain = JSON.parse(localStorage.getItem("tinhToan"));
-                let getListProductMain = JSON.parse(localStorage.getItem("listProducts"));
-                if(getTinhToanMain && getListProductMain){
-                  let tongSoLuong = 0;
-                  for(let i = 0; i < getListProductMain.length; i++){
-                    tongSoLuong += parseInt(getListProductMain[i].soLuong);
-                  }
-                  document.getElementById("infoShopCart").innerHTML = 
-                  `<div class="row">
-                      Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
-                    </div>
-                    <div class="row">
-                      Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
-                    </div>`
-                }
-
-                
-            </script>
-              
-          </div>
-        </div>
+        <script>
+          let getTinhToanMain = JSON.parse(localStorage.getItem("tinhToan"));
+          let getListProductMain = JSON.parse(localStorage.getItem("listProducts"));
+          if (getTinhToanMain && getListProductMain) {
+            let tongSoLuong = 0;
+            for (let i = 0; i < getListProductMain.length; i++) {
+              tongSoLuong += parseInt(getListProductMain[i].soLuong);
+            }
+            document.getElementById("infoShopCart").innerHTML =
+              `
+            <div class="row">
+              <div class="col-sm-4">
+                <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                    <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+                </a>
+              </div>
+              <div class="col-sm-8" style="color: #146e28" >
+    
+                <div class="row">
+                  Số lượng:&nbsp; <b id="tongSoLuong"> ${tongSoLuong}</b>
+                </div>
+                <div class="row">
+                  Tổng giá:&nbsp; <b id="tongGiaShopCart"> ${getTinhToanMain.tongTien}.000đ</b>
+                </div>
+              </div>
+            </div>
+            `
+          } else {
+            document.getElementById("infoShopCart").innerHTML =
+              `            <div class="row">
+              <div class="col-sm-10">
+                <a href="<%= sails.getUrlFor('home/ShopCartController.show') %>"> 
+                    <img src="/home/img/content/shop/logo-shop-cart.png" alt="Giỏ hàng" height="64" width="64" />
+                </a>
+              </div>
+            </div>
+              `
+          }
+        </script>
 
 
       </div>
