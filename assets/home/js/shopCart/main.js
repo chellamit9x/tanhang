@@ -38,11 +38,17 @@ let taiKhoanNganHang = {
 
 function loadDefault() {
     localStorage.setItem("tinhToan", JSON.stringify(tinhToan));
+
     // localStorage.setItem("listProducts", JSON.stringify(listProducts));
     let getListProduct = JSON.parse(localStorage.getItem("listProducts"));
     let getTinhToan = JSON.parse(localStorage.getItem("tinhToan"));
 
     let getMaDonHang = localStorage.getItem("maDonHang");
+    if(!getMaDonHang){
+        let maDonHang = "TanHangTra" + Date.now();
+        localStorage.setItem("maDonHang", maDonHang);
+        getMaDonHang = localStorage.getItem("maDonHang");
+    }
     let item = '';
     let tongTien = 0;
     if (getListProduct) {
