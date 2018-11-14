@@ -44,4 +44,7 @@ module.exports.routes = {
     'GET /bai-viet': 'home/BlogController.show',
     'GET /bai-viet/:slugs': 'home/BlogController.detail',
 
+    //Shop-Cart + Payment
+    'GET /gio-hang': 'home/ShopCartController.show',
+
 };

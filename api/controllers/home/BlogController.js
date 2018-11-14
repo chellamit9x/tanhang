@@ -20,7 +20,7 @@ module.exports = {
         try {
             valueSearchs = req.param('search').toLowerCase();
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
 
         //Search Blog

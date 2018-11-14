@@ -1,0 +1,138 @@
+<script src="/home/js/shopCart/main.js"></script>
+
+<script>
+
+</script>
+
+<div class="page-title jarallax black-overlay-20" data-jarallax data-speed="0.6" style="background-image: url('home/img/content/bgs/bg1.jpg');">
+    <div class="container">
+        <h1>Giỏ Hàng </h1>
+        <ul>
+            <li><a href="<%= sails.getUrlFor('home/HomeController.home') %>">Trang chủ</a></li>
+            <li><a href="<%= sails.getUrlFor('home/ShopCartController.show') %>">Giỏ hàng</a></li>
+        </ul>
+    </div>
+</div>
+<div class="section-block">
+    <div class="container">
+        <div>
+            <h3 class="titleGioHang">Sản phầm bạn đã chọn!</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-sm-10 col-12" id="formSanPham">
+            </div>
+            <div class="col-md-4 col-sm-10 col-12" id="formTinhToan">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-10 col-12">
+                <div class="pt-5">
+                    <h3 class="titleGioHang">Thông tin khách hàng!</h3>
+                </div>
+                <input type="hidden" name="lang" value="vn">
+                <div id="err" style="display:none">
+                    <div id="str_error"></div>
+                    <iframe name="fr_submit" width="0" height="0" style="visibility:hidden"></iframe>
+                </div>
+
+                <p></p>
+                <p class="pb-3">Vui lòng nhập đầy đủ và chính xác thông tin, chúng tôi sẽ liên hệ với bạn sớm.</p>
+
+                <div class="row pb-3">
+                    <div class="col-md-4 col-sm-10 col-12">
+                        <label for="fullname_billing" class="required"><b>Họ và tên</b>&nbsp;<font color="red">*</font>&nbsp;</label>
+                    </div>
+                    <div class="col-md-8 col-sm-10 col-12">
+                        <input  name="fullname_billing" id="hoTen" type="text" value="" size="40" maxlength="100"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-md-4 col-sm-10 col-12">
+                        <label for="fullname_billing" class="required"><b>Email</b>&nbsp;</label>
+                    </div>
+                    <div class="col-md-8 col-sm-10 col-12">
+                        <input  name="email_billing" id="email" type="text" value="" size="40" maxlength="100"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-md-4 col-sm-10 col-12">
+                        <label for="fullname_billing" class="required"><b>Điện thoại di động</b>&nbsp;<font color="red">*</font>&nbsp;</label>
+                    </div>
+                    <div class="col-md-8 col-sm-10 col-12">
+                        <input name="mobile_billing" id="soDienThoai" type="text" value="" size="40" maxlength="100"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-md-4 col-sm-10 col-12">
+                        <label for="fullname_billing" class="required"><b>Địa chỉ</b>&nbsp;<font color="red">*</font>&nbsp;</label>
+                    </div>
+                    <div class="col-md-8 col-sm-10 col-12">
+                        <input  name="address_billing" id="diaChi" type="text" value="" size="40" maxlength="100"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <p>
+                    <label for="note"><b>Ghi chú</b></label>
+                    <textarea name="note" cols="45" rows="6" id="ghiChu" class="form-control"></textarea>
+                </p>
+
+
+            </div>
+
+            <div class="col-md-6 col-sm-10 col-12">
+                
+                
+                        <div class="pt-5">
+                                <h3 class="titleGioHang">Hình thức thanh toán</h3>
+                            </div>
+            
+                            <div class="payment pb-3">
+                                <span>
+                                    <p>Vui lòng chọn một hình thức thanh toán.</p>
+                                </span>
+                            </div>
+                            <div class="divHinhThucThanhToan p-2">
+            
+                            <div class="row pb-3">
+                                <div class="col-md-2 col-sm-10 col-12">
+                                    <div class="icon"><img alt="Thanh toán trực tiếp khi nhận hàng" src="/home/img/content/shop/icon-thanh-toan-tien-mat.png"></div>
+                                </div>
+                                
+                                <div class="col-md-10 col-sm-10 col-12">
+                                    <label class="name"><input type="radio" value="0" name="radThanhToan"> Thanh
+                                        toán trực tiếp khi nhận hàng</label>
+                                    <p>Quý khách sẽ đưa tiền mặt trực tiếp cho nhân viên giao hàng tại địa điểm nhận hàng.</p>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div class="col-md-2 col-sm-10 col-12">
+                                    <div class="icon"><img alt="Thanh toán trực tiếp khi nhận hàng" src="/home/img/content/shop/icon-thanh-toan-chuyen-khoan.png"></div>
+                                </div>
+                                <div class="col-md-10 col-sm-10 col-12">
+                                    <label class="name"><input type="radio" value="1" name="radThanhToan"> Thanh toán
+                                        qua chuyển khoản</label>
+                                    <p>Quý khách sẽ chuyển khoản vào tài khoản dưới đây, với nội dung mã đơn hàng. Chúng tôi sẽ liên hệ với bạn để xác nhận và gửi hàng.</p>
+                                      
+                                    
+                                    <div id="noiDungChuyenKhoan">
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-checkout clearfix" id="divBtnDatHang">
+
+            </div>
+
+    </div>
+</div>

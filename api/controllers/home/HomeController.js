@@ -6,7 +6,11 @@ module.exports = {
 
     about: async function (req, res) {
         let contentIntroduce = await Settings.findOne({ key: 'introduce' });
-
+        if (!contentIntroduce) {
+            contentIntroduce = {
+                value: "<h4>Chưa có nội dung giới thiệu!</h4>"
+            }
+        }
         res.view('pages/home/about', {
             layout: 'layouts/home/main',
             contentIntroduce: contentIntroduce

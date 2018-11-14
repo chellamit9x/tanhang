@@ -11,6 +11,7 @@ module.exports = {
 
         if(req.method == 'GET'){
             let contentIntroduce = await Settings.findOrCreate({key: 'introduce'}, {key: 'introduce', value: ''});
+
             res.view('pages/admin/introduce/introduce_setting', {
                 layout: 'layouts/admin/main',
                 contentIntroduce: contentIntroduce
@@ -27,6 +28,11 @@ module.exports = {
     view: async (req, res)=>{
 
         let contentIntroduce = await Settings.findOne({key: 'introduce'});
+        if (!contentIntroduce) {
+            contentIntroduce = {
+                value: "<h4>Chưa có nội dung giới thiệu!</h4>"
+            }
+        }
         res.view('pages/admin/introduce/introduce', {
             layout: 'layouts/admin/main',
             contentIntroduce: contentIntroduce
